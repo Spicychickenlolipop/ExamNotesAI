@@ -9,7 +9,7 @@ import { getCurrentUser } from './services/api'
 import { useDispatch, useSelector } from 'react-redux'
 import PaymentFailed from './pages/PaymentFailed'
 import PaymentSuccess from './pages/PaymentSuccess'
-export const serverUrl = "http://localhost:8000"
+export const serverUrl = "https://examnotesaiserver-k5xn.onrender.com"
 
 function App() {
   const dispatch = useDispatch()
