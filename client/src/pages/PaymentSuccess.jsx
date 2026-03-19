@@ -42,7 +42,7 @@ function PaymentSuccess() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 className='text-2xl font-bold text-green-600'>
-                    Payment Successful
+                    Payment Successfull Credits Added
             </motion.h1>
 
 
