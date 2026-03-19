@@ -42,7 +42,7 @@ function PaymentFailed() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
                 className='text-2xl font-bold text-red-600'>
-                    Payment Successfull Credits Added
+                    Payment Failed
             </motion.h1>
 
 
