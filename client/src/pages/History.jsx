@@ -608,7 +608,7 @@ function History() {
                 onClick={()=>setIsSidebarOpen(false)}
                 className="lg:hidden mb-4 text-sm text-gray-300"
               >
-                ⬅ Back
+                 ← Back
               </button>
 
               <h2 className="text-sm font-semibold text-gray-300 mb-4">
