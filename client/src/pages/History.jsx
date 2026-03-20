@@ -566,10 +566,25 @@ function History() {
           </div>
         </div>
 
-        <div className='flex items-center gap-3'>
+        {/* <div className='flex items-center gap-3'>
           <div className='px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/40 to-indigo-500/40 border border-purple-400/30 text-sm'>
             Credits {credits}
-          </div>
+          </div> */}
+          <motion.div 
+            onClick={()=>navigate("/pricing")}
+            // onClick={() => { setShowCredits(!showCredits); setShowProfile(false) }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.96 }}
+            className='px-5 py-2 rounded-xl
+            bg-gradient-to-r from-purple-600/40 to-indigo-500/40
+            border border-purple-400/30
+            text-sm font-medium text-white
+            shadow-[0_8px_25px_rgba(139,92,246,0.4)]
+            backdrop-blur-lg
+            cursor-pointer'
+          >
+            Credits {credits}
+          </motion.div>
 
           <button
             onClick={() => navigate("/notes")}
