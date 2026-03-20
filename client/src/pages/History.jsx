@@ -649,7 +649,7 @@ function History() {
                       key={i}
                       onClick={() => {
                         openNotes(t._id)
-                        setIsSidebarOpen(false)
+                        // setIsSidebarOpen(false)
                       }}
                       className={`cursor-pointer rounded-xl p-3 border transition-all
                         ${activeNoteId === t._id
