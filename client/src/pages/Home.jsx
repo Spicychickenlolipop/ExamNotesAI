@@ -420,7 +420,7 @@ function Home() {
           des='Automatically structured and optimized for exams.'
         />
         <Feature 
-          title='Project Content'
+          title='Clean Documentation'
           des='Generate clean documentation and explanations.'
         />
         <Feature 
