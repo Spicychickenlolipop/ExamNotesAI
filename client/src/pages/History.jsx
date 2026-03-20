@@ -460,7 +460,6 @@
 
 
 
-
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { serverUrl } from "../App"
@@ -566,8 +565,10 @@ function History() {
           </div>
         </div>
 
-        {/* <div className='flex items-center gap-3'>
-          <div className='px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/40 to-indigo-500/40 border border-purple-400/30 text-sm'>
+        <div className='flex items-center gap-3'>
+          {/* <div 
+          onClick={()=>navigate("/pricing")}
+          className='px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/40 to-indigo-500/40 border border-purple-400/30 text-sm'>
             Credits {credits}
           </div> */}
           <motion.div 
