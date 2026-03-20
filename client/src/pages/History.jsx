@@ -469,7 +469,6 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import FinalResult from "../components/FinalResult"
 import logo from "../assets/logo.png"
-import { GiHamburgerMenu } from "react-icons/gi"
 
 function History() {
   const [topics, setTopics]= useState([])
@@ -505,35 +504,42 @@ function History() {
       console.log(error)
     }
     setLoading(false)
-
-    // close sidebar on mobile after click
-    if(window.innerWidth < 1024){
-      setIsSidebarOpen(false)
-    }
   }
 
+  // Responsive sidebar control
   useEffect(()=>{
-    if(window.innerWidth >= 1024){
-      setIsSidebarOpen(true)
+    const handleResize = () => {
+      if(window.innerWidth >= 1024){
+        setIsSidebarOpen(true)
+      } else {
+        setIsSidebarOpen(false)
+      }
     }
+
+    handleResize()
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
   },[])
 
   return (
-    <div className="min-h-screen bg-[#0b0b0f] text-white overflow-hidden relative px-4 md:px-6 py-6 md:py-8">
+    <div className="min-h-screen bg-[#0b0b0f] text-white overflow-hidden relative px-4 md:px-6 py-6">
 
-      {/* BACKGROUND */}
-      <div className='absolute inset-0 overflow-hidden'>
+      {/* 🔥 Animated Background */}
+      <div className='absolute top-0 left-0 w-full h-full overflow-hidden'>
         <motion.div
-          animate={{ x:[0,100,-80,60,0], y:[0,-80,60,-40,0] }}
+          animate={{ x:[0,100,-80,60,0], y:[0,-80,60,-40,0], scale:[1,1.2,0.9,1.1,1] }}
           transition={{ duration:25, repeat:Infinity, ease:"linear" }}
-          className='absolute w-[500px] h-[500px] bg-purple-600/30 blur-[140px] top-[-120px] left-[-120px]'
+          className='absolute w-[500px] h-[500px] md:w-[600px] md:h-[600px] bg-purple-600/30 blur-[160px] top-[-150px] left-[-150px]'
         />
         <motion.div
-          animate={{ x:[0,-120,80,-60,0], y:[0,100,-60,40,0] }}
+          animate={{ x:[0,-120,80,-60,0], y:[0,100,-60,40,0], scale:[1,0.9,1.2,1,1] }}
           transition={{ duration:30, repeat:Infinity, ease:"linear" }}
-          className='absolute w-[500px] h-[500px] bg-blue-600/30 blur-[140px] bottom-[-120px] right-[-120px]'
+          className='absolute w-[500px] h-[500px] md:w-[600px] md:h-[600px] bg-blue-600/30 blur-[160px] bottom-[-150px] right-[-150px]'
         />
       </div>
+
+      {/* Grid pattern */}
+      <div className='absolute inset-0 opacity-[0.04] bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:40px_40px]' />
 
       {/* HEADER */}
       <motion.header
@@ -541,44 +547,33 @@ function History() {
         animate={{ opacity: 1, y:0}}
         className="relative z-10 mb-6 md:mb-10 rounded-2xl
         bg-white/5 backdrop-blur-xl border border-white/10
-        px-4 md:px-8 py-4 md:py-5 flex justify-between items-center flex-wrap gap-3"
+        px-5 md:px-8 py-4 md:py-5 flex justify-between items-center flex-wrap gap-3"
       >
-        {/* LEFT */}
-        <div onClick={()=>navigate("/")} className='flex items-center gap-2 md:gap-3 cursor-pointer'>
-          <img src={logo} className='w-8 h-8 md:w-9 md:h-9'/>
-          <h1 className='text-sm md:text-lg font-semibold'>
-            ExamNotes <span className='text-gray-400'>AI</span>
-          </h1>
-        </div>
-
-        {/* RIGHT */}
-        <div className='flex items-center gap-2 md:gap-3 flex-wrap'>
-
-          {/* ☰ BUTTON (MOBILE ONLY) */}
+        <div className='flex items-center gap-3'>
+          {/* ☰ Mobile Menu */}
           <button
-            onClick={()=>setIsSidebarOpen(true)}
-            className="lg:hidden p-2 rounded-lg bg-white/10 border border-white/10"
+            onClick={() => setIsSidebarOpen(true)}
+            className="lg:hidden px-3 py-2 bg-white/10 border border-white/10 rounded-lg"
           >
-            <GiHamburgerMenu size={18}/>
+            ☰
           </button>
 
-          {/* CREDITS */}
-          <div 
-            onClick={()=>navigate("/pricing")}
-            className='px-3 md:px-5 py-1.5 md:py-2 rounded-xl
-            bg-gradient-to-r from-purple-600/40 to-indigo-500/40
-            border border-purple-400/30
-            text-xs md:text-sm font-medium text-white
-            cursor-pointer'
-          >
+          <div onClick={()=>navigate("/")} className='flex items-center gap-3 cursor-pointer'>
+            <img src={logo} className='w-8 h-8'/>
+            <h1 className='text-base md:text-lg font-semibold'>
+              ExamNotes <span className='text-gray-400'>AI</span>
+            </h1>
+          </div>
+        </div>
+
+        <div className='flex items-center gap-3'>
+          <div className='px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/40 to-indigo-500/40 border border-purple-400/30 text-sm'>
             Credits {credits}
           </div>
 
-          {/* NEW NOTES */}
           <button
             onClick={() => navigate("/notes")}
-            className='px-3 md:px-4 py-1.5 md:py-2 rounded-lg
-            bg-white/10 border border-white/10 hover:bg-white/20 text-xs md:text-sm'
+            className='px-3 md:px-4 py-2 rounded-lg bg-white/10 border border-white/10 hover:bg-white/20 text-sm'
           >
             New Notes
           </button>
@@ -591,64 +586,80 @@ function History() {
         {/* SIDEBAR */}
         <AnimatePresence>
           {isSidebarOpen && (
-            <motion.div 
-              initial={{ x: -320 }}
-              animate={{ x: 0 }}
-              exit={{ x: -320 }}
-              transition={{ type: "spring", stiffness: 260, damping: 30}}
-              className="fixed lg:static top-0 left-0 z-50
-              w-72 h-full lg:h-[75vh]
-              bg-black/90 lg:bg-white/5
-              backdrop-blur-xl border border-white/10
-              rounded-none lg:rounded-2xl p-4 overflow-y-auto"
-            >
+            <>
+              {/* Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.6 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black z-40 lg:hidden"
+                onClick={() => setIsSidebarOpen(false)}
+              />
 
-              {/* CLOSE BUTTON MOBILE */}
-              <button
-                onClick={()=>setIsSidebarOpen(false)}
-                className="lg:hidden mb-4 text-sm text-gray-300"
+              {/* Sidebar */}
+              <motion.div
+                initial={{ x: -320 }}
+                animate={{ x: 0 }}
+                exit={{ x: -320 }}
+                transition={{ type: "spring", stiffness: 260, damping: 30 }}
+                className="
+                  fixed top-0 left-0 z-50
+                  w-72 h-full
+                  bg-white/10 backdrop-blur-xl border-r border-white/10
+                  p-4 overflow-y-auto
+
+                  lg:static lg:w-auto lg:h-[75vh] lg:rounded-2xl lg:border
+                  lg:col-span-1
+                "
               >
-                 ← Back
-              </button>
+                <button
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="lg:hidden mb-4"
+                >
+                  ⬅ Back
+                </button>
 
-              <h2 className="text-sm font-semibold text-gray-300 mb-4">
-                Your Notes
-              </h2>
+                <h2 className="text-sm font-semibold text-gray-300 mb-4">
+                  Your Notes
+                </h2>
 
-              {topics.length === 0 &&(
-                <p className="text-sm text-gray-400">No notes yet</p>
-              )}
+                {topics.length === 0 &&(
+                  <p className="text-sm text-gray-400">No notes yet</p>
+                )}
 
-              <ul className="space-y-3">
-                {topics.map((t,i)=>(
-                  <li
-                    key={i}
-                    onClick={() => openNotes(t._id)}
-                    className={`cursor-pointer rounded-xl p-3 border transition-all
-                      ${activeNoteId === t._id
-                        ? "bg-white/10 border-white/20"
-                        : "bg-white/5 border-white/10 hover:bg-white/10"
-                      }`}
-                  >
-                    <p className="text-sm font-medium text-white">{t.topic}</p>
+                <ul className="space-y-3">
+                  {topics.map((t,i)=>(
+                    <li
+                      key={i}
+                      onClick={() => {
+                        openNotes(t._id)
+                        setIsSidebarOpen(false)
+                      }}
+                      className={`cursor-pointer rounded-xl p-3 border transition-all
+                        ${activeNoteId === t._id
+                          ? "bg-white/10 border-white/20"
+                          : "bg-white/5 border-white/10 hover:bg-white/10"
+                        }`}
+                    >
+                      <p className="text-sm font-medium">{t.topic}</p>
 
-                    <div className="flex flex-wrap gap-2 mt-2 text-xs">
-                      {t.classLevel && (
-                        <span className="px-2 py-1 rounded-full bg-white/10 border border-white/10 text-gray-300">
-                          {t.classLevel}
-                        </span>
-                      )}
-                      {t.examType && (
-                        <span className="px-2 py-1 rounded-full bg-white/10 border border-white/10 text-gray-300">
-                          {t.examType}
-                        </span>
-                      )}
-                    </div>
-                  </li>
-                ))}
-              </ul>
-
-            </motion.div>
+                      <div className="flex flex-wrap gap-2 mt-2 text-xs">
+                        {t.classLevel && (
+                          <span className="px-2 py-1 rounded-full bg-white/10 border border-white/10 text-gray-300">
+                            {t.classLevel}
+                          </span>
+                        )}
+                        {t.examType && (
+                          <span className="px-2 py-1 rounded-full bg-white/10 border border-white/10 text-gray-300">
+                            {t.examType}
+                          </span>
+                        )}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
 
@@ -658,15 +669,14 @@ function History() {
           animate={{ opacity: 1, y: 0 }}
           className="lg:col-span-3 rounded-2xl
           bg-white/5 backdrop-blur-xl border border-white/10
-          p-4 md:p-6 min-h-[60vh] md:min-h-[75vh]"
+          p-4 md:p-6 min-h-[70vh]"
         >
-
           {loading && (
             <p className="text-center text-gray-400">Loading notes...</p>
           )}
 
           {!loading && !selectedNote && (
-            <div className="h-full flex items-center justify-center text-gray-400 text-sm md:text-base">
+            <div className="h-full flex items-center justify-center text-gray-400 text-center">
               Select a note to view
             </div>
           )}
@@ -674,7 +684,6 @@ function History() {
           {!loading && selectedNote && (
             <FinalResult result={selectedNote}/>
           )}
-
         </motion.div>
 
       </div>
