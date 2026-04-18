@@ -145,12 +145,6 @@ npm run dev
 
 ---
 
-## 👨‍💻 Author
-
-GitHub: https://github.com/Spicychickenlolipop
-
----
-
 ## ⭐ Support
 
 If you like this project, give it a ⭐
