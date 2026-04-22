@@ -50,7 +50,7 @@
 * React Router
 * Axios
 * Mermaid + Recharts
-* Firebase *(optional)*
+* Firebase
 
 ### Backend
 
